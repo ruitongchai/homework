@@ -1,15 +1,16 @@
-public def myall
-    result=true
-    each do |e|
-      result=yield(e)
-      if result==false
-        return result
-      end
+
+public def all
+  result=true
+  each do |e|
+    result=yield(e)
+    if result==false
+      return result
     end
-    result
+  end
+  result
 end
 
-public def myany
+public def any
   result=false
   each do |e|
     result=yield(e)
@@ -20,7 +21,7 @@ public def myany
   result
 end
 
-public def mychunk
+public def chunk
   result1=yield first
   arr=Array.new
   arr1=Array.new
@@ -38,11 +39,12 @@ public def mychunk
   end
 
   arr<<[result1,Array.new(arr1)]
+
   arr
 
 end
 
-public def mychunk_while
+public def chunk_while
   flag=true
   flag2=0
   arr=Array.new
@@ -75,7 +77,7 @@ public def mychunk_while
 end
 
 
-public def mycount(n=nil)
+public def count(n=nil)
   length = 0
   if n.nil?
     each do |e|
@@ -89,9 +91,9 @@ public def mycount(n=nil)
     end
   else
     each do|e|
-      length=length+1
-      if length==n
-        return e
+
+      if e==n
+        length=length+1
       end
     end
 
@@ -99,7 +101,7 @@ public def mycount(n=nil)
   length
 end
 
-public def mycollect
+public def collect
   arr=Array.new
   each do|e|
     tmp = yield e
@@ -109,18 +111,16 @@ public def mycollect
   arr
 end
 
-public def mycollect_concat
+public def collect_concat
   arr=Array.new
   each do |e|
     tmp =yield e
-    until tmp.empty?
-      arr<<tmp.shift
-    end
+    arr<<tmp
   end
   arr
 end
 
-public def mycycle(n=nil)
+public def cycle(n=nil)
   arr=Array.new
   if n.nil?
     whlie true do
@@ -139,7 +139,7 @@ public def mycycle(n=nil)
   end
 end
 
-public def mydetect
+public def detect
   each do |e|
     if (yield e) ==true
       return e
@@ -148,7 +148,7 @@ public def mydetect
   nil
 end
 
-public def mydrop(n)
+public def drop(n)
   arr=Array.new
   length=0
   each do |e|
@@ -160,7 +160,7 @@ public def mydrop(n)
   arr
 end
 
-public def mydrop_while
+public def drop_while
   unless block_given?
     return
   end
@@ -180,7 +180,7 @@ public def mydrop_while
   arr
 end
 
-public def myeach_cons(n)
+public def each_cons(n)
   arr=Array.new
   result=Array.new
   each do |e|
@@ -205,13 +205,13 @@ public def myeach_cons(n)
   result
 end
 
-public def myeach_entry
+public def each_entry
   each do|e|
     yield e
   end
 end
 
-public def myeach_slice(n)
+public def each_slice(n)
   arr=Array.new
   result=Array.new
   each do |e|
@@ -233,7 +233,7 @@ public def myeach_slice(n)
 end
 
 
-public def myeach_with_index
+public def each_with_index
   arr=Array.new
   each do |e|
     arr<<e
@@ -247,7 +247,7 @@ public def myeach_with_index
 
 end
 
-public def myeach_with_object(object)
+public def each_with_object(object)
   a=Array.new
   each do |e|
     yield e,a
@@ -255,7 +255,7 @@ public def myeach_with_object(object)
   a
 end
 
-public def myfind
+public def find
   each do |e|
     if (yield e) ==true
       return e
@@ -264,7 +264,7 @@ public def myfind
   nil
 end
 
-public def myfind_all
+public def find_all
   a=Array.new
   each do |e|
     if (yield e) ==true
@@ -274,7 +274,7 @@ public def myfind_all
   a
 end
 
-public def myfirst
+public def first
   found = nil
   each do |e|
     found=e
@@ -283,7 +283,7 @@ public def myfirst
   found
 end
 
-public def myfind_index
+public def find_index
   length=0
   each do |e|
     if (yield e) ==true
@@ -294,7 +294,7 @@ public def myfind_index
   nil
 end
 
-public def myflat_map
+public def flat_map
   result=Array.new
   arr=Array.new
   arr1=Array.new
@@ -312,7 +312,7 @@ public def myflat_map
   result
 end
 
-public def mygrep(n)
+public def grep(n)
   arr=Array.new
   each do |e|
     if  e == n
@@ -326,7 +326,7 @@ public def mygrep(n)
   arr
 end
 
-public def mygrep_v(n)
+public def grep_v(n)
   arr=Array.new
   each do |e|
     if  e != n
@@ -342,7 +342,7 @@ public def mygrep_v(n)
 
 end
 
-public def mygroup_by #24
+public def group_by #24
   hash=Hash.new
   arr=Array.new
   arr1=Array.new
@@ -367,7 +367,7 @@ public def mygroup_by #24
   hash
 end
 
-public def myinclude?(obj)
+public def include?(obj)
   each do |e|
     if e==obj
       return true
@@ -377,7 +377,7 @@ public def myinclude?(obj)
   false
 end
 
-public def myinject(accumulator=nil)
+public def inject(accumulator=nil)
   if accumulator.nil?
     ignore_first=true
     accumulator=first
@@ -392,7 +392,7 @@ public def myinject(accumulator=nil)
   accumulator
 end
 
-public def mylazy
+public def lazy
   arr=Array.new
   each do |e|
     arr<<e
@@ -400,7 +400,7 @@ public def mylazy
   arr
 end
 
-public def mymap
+public def map
   arr=Array.new
   each do |e|
     arr<<(yield e)
@@ -408,36 +408,36 @@ public def mymap
   arr
 end
 
-public def mymax(n=nil)
+public def max(n=nil)
   if n.nil?
-    myinject{|accumulator,element|accumulator > element ? accumulator:element}
+    inject{|accumulator,element|accumulator > element ? accumulator:element}
   else
     arr1=Array.new(n)
-      each do |e|
-        length=0
-        while length<n  do
-          if arr1[length]==nil or e>arr1[length]
-            i=1
-            while n-i>length do
-              arr=Array.new(arr1)
-              arr1[n-i]=arr[n-i-1]
-              i+=1
-            end
-            arr1[length]=e
-            break
+    each do |e|
+      length=0
+      while length<n  do
+        if arr1[length]==nil or e>arr1[length]
+          i=1
+          while n-i>length do
+            arr=Array.new(arr1)
+            arr1[n-i]=arr[n-i-1]
+            i+=1
           end
-          length+=1
-
+          arr1[length]=e
+          break
         end
+        length+=1
+
       end
+    end
     arr1
   end
 
 end
 
-public def mymax_by(n=nil)
+public def max_by(n=nil)
   if n.nil?
-    myinject{|accumulator,element|(yield accumulator) >= (yield element) ? accumulator:element}
+    inject{|accumulator,element|(yield accumulator) >= (yield element) ? accumulator:element}
   else
     arr1=Array.new(n)
     each do |e|
@@ -461,9 +461,9 @@ public def mymax_by(n=nil)
   end
 end
 
-public def mymin(n=nil)
+public def min(n=nil)
   if n.nil?
-    myinject{|accumulator,element|accumulator < element ? accumulator:element}
+    inject{|accumulator,element|accumulator < element ? accumulator:element}
   else
     arr1=Array.new(n)
     each do |e|
@@ -487,9 +487,9 @@ public def mymin(n=nil)
   end
 end
 
-public def mymin_by(n=nil)
+public def min_by(n=nil)
   if n.nil?
-    myinject{|accumulator,element|(yield accumulator) <= (yield element) ? accumulator:element}
+    inject{|accumulator,element|(yield accumulator) <= (yield element) ? accumulator:element}
   else
     arr1=Array.new(n)
     each do |e|
@@ -513,7 +513,7 @@ public def mymin_by(n=nil)
   end
 end
 
-public def mymember(n)
+public def member(n)
   each do |e|
     if e==n
       return true
@@ -524,7 +524,7 @@ public def mymember(n)
 end
 
 
-public def myminmax
+public def minmax
   min=first
   max=first
   each do |e|
@@ -538,7 +538,7 @@ public def myminmax
   [min,max]
 end
 
-public def mynone
+public def none
   each do |e|
     if  (yield e)==true
       return false
@@ -548,7 +548,7 @@ public def mynone
   true
 end
 
-public def myminmax_by
+public def minmax_by
   min=first
   max=first
   each do |e|
@@ -562,7 +562,7 @@ public def myminmax_by
   [min,max]
 end
 
-public def myone
+public def one
   result=0
   each do |e|
     if (yield e) ==true
@@ -570,12 +570,12 @@ public def myone
     end
   end
   if result==1
-      return true
+    return true
   end
   return false
 end
 
-public def myreduce(*argv, &block)
+public def reduce(*argv, &block)
   initial=nil
   sym=nil
   if argv[0].is_a?(Numeric)
@@ -625,7 +625,7 @@ public def myreduce(*argv, &block)
   end
 end
 
-public def mypartition
+public def partition
   arr=Array.new
   each do |e|
     arr<<e
@@ -650,7 +650,7 @@ public def mypartition
   result
 end
 
-public def myreject
+public def reject
   arr=Array.new
   each do |e|
     if (yield e)==false
@@ -660,7 +660,7 @@ public def myreject
   arr
 end
 
-public def myreverse_each
+public def reverse_each
   arr=Array.new
   arr_r=Array.new
   each do |e|
@@ -673,7 +673,7 @@ public def myreverse_each
 
 end
 
-public def myselect
+public def select
   arr=Array.new
   each do |e|
     if (yield e)==true
@@ -683,27 +683,27 @@ public def myselect
   arr
 end
 
-public def myslice_after(n)
+public def slice_after(n)
   flag=0
   arr=Array.new
-         result=Array.new
-         each do|e|
-           if flag==0 && e!=n
-             arr<<e
-           elsif e==n
-             flag=1
-             arr<<e
-             result<<Array.new(arr)
-             arr.clear
-           else
-             arr<<e
-           end
-         end
-         result<<Array.new(arr)
-         result
+  result=Array.new
+  each do|e|
+    if flag==0 && e!=n
+      arr<<e
+    elsif e==n
+      flag=1
+      arr<<e
+      result<<Array.new(arr)
+      arr.clear
+    else
+      arr<<e
+    end
+  end
+  result<<Array.new(arr)
+  result
 end
 
-public def myslice_before(n)
+public def slice_before(n)
   flag=0
   arr=Array.new
   result=Array.new
@@ -723,7 +723,7 @@ public def myslice_before(n)
   result
 end
 
-public def myslice_when
+public def slice_when
   flag=0
   arr=Array.new
   result=Array.new
@@ -743,7 +743,7 @@ public def myslice_when
   result
 end
 
-public def mysort
+public def sort
   arr=Array.new
   each do |e|
     arr<<e
@@ -768,7 +768,7 @@ end
 
 
 
-public def mysort_by
+public def sort_by
   arr=Array.new
   each do |e|
     arr<<e
@@ -790,11 +790,11 @@ public def mysort_by
   arr
 end
 
-public def mysum
-  myinject{|accumulator,element|accumulator = accumulator+element}
+public def sum
+  inject{|accumulator,element|accumulator = accumulator+element}
 end
 
-public def mytake(n)
+public def take(n)
   arr=Array.new
   i=0
   each do |e|
@@ -806,7 +806,7 @@ public def mytake(n)
   arr
 end
 
-public def mytake_while
+public def take_while
   arr=Array.new
   each do |e|
     if yield e
@@ -816,7 +816,7 @@ public def mytake_while
   arr
 end
 
-public def myuniq
+public def uniq
   arr=Array.new
   each do |e|
     arr<<e
@@ -837,7 +837,7 @@ public def myuniq
   arr
 end
 
-public def myzip(arr)
+public def zip(arr)
   arr1=Array.new
   length=0
   each do |e|
@@ -847,7 +847,7 @@ public def myzip(arr)
   arr1
 end
 
-public def myto_h
+public def to_h
   arr=Array.new
   each do |e|
     arr<<e
